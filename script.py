@@ -54,9 +54,11 @@ def data_for_dsp(data_dict, dsp_name):
 
 """
 	Return a dictionary with driver as key and a list of data as value
+	Returns the grand total
 """
 def organize_by_driver(dsp_data):
 	d = dict()
+	grand_total = 0
 	for item in dsp_data:
 		dsp_name = (item['route_code'] + " / " if item['route_code'] else "") + item['da_name'].split('/')[0]
 		if dsp_name not in d:
@@ -69,13 +71,16 @@ def organize_by_driver(dsp_data):
 	TESTING: Display the data nicely
 """
 def display_data(dsp_data, dsp_name):
+	grand_total = 0
 	print(f'		***  {dsp_name} Commercials ***\n\n')
 	for da_name in dsp_data:
 		lst = dsp_data[da_name]
 		print(f'- {da_name}')
 		for item in lst:
+			grand_total += 1
 			print(f'	- {item["tracking_id"]} / {item["sort_zone"]}' + \
 				(f"/ {item['route_sort_code']}" if item['route_sort_code'] else ""))
+	print(f'\nGrand Total: {grand_total}')
 	print('\n')
 
 """
@@ -84,13 +89,16 @@ def display_data(dsp_data, dsp_name):
 def write_data(dsp_datas, dsp_names):
 	f = open("output.doc", "w")
 	for i in range(len(dsp_datas)):
+		grand_total = 0
 		f.write(f'		***  {dsp_names[i]} Commercials ***\n\n\n')
 		for da_name in dsp_datas[i]:
 			lst = dsp_datas[i][da_name]
 			f.write(f'- {da_name}\n')
 			for item in lst:
+				grand_total += 1
 				f.write(f'	- {item["tracking_id"]} / {item["sort_zone"]}' + \
 					(f"/ {item['route_sort_code']}\n" if item['route_sort_code'] else "\n"))
+		f.write(f'\nGrand Total: {grand_total}\n')
 		f.write('\n\n')
 	print('Note: The data has been written to output.doc\n')
 
@@ -110,7 +118,7 @@ def main(argv):
 	except Exception as e:
 		print(f'{file_name} does NOT exist in the same directory')
 		return -1
-
+	
 	data_dict = parse_data(lines)
 
 	alal = organize_by_driver(data_for_dsp(data_dict, 'ALAL'))
@@ -126,3 +134,4 @@ def main(argv):
 
 if __name__ == "__main__":
 	main(sys.argv)
+	
