@@ -79,7 +79,7 @@ def display_data(dsp_data, dsp_name):
 		for item in lst:
 			grand_total += 1
 			print(f'	- {item["tracking_id"]} / {item["sort_zone"]}' + \
-				(f"/ {item['route_sort_code']}" if item['route_sort_code'] else ""))
+				(f" / {item['route_sort_code']}" if item['route_sort_code'] else ""))
 	print(f'\nGrand Total: {grand_total}')
 	print('\n')
 
@@ -97,7 +97,7 @@ def write_data(dsp_datas, dsp_names):
 			for item in lst:
 				grand_total += 1
 				f.write(f'	- {item["tracking_id"]} / {item["sort_zone"]}' + \
-					(f"/ {item['route_sort_code']}\n" if item['route_sort_code'] else "\n"))
+					(f" / {item['route_sort_code']}\n" if item['route_sort_code'] else "\n"))
 		f.write(f'\nGrand Total: {grand_total}\n')
 		f.write('\n\n')
 	print('Note: The data has been written to output.doc\n')
